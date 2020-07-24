@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Drew/Code/movement.gd" type="Script" id=1]
+[ext_resource path="res://Drew/TempArt/testSprite.jpg" type="Texture" id=2]
+[ext_resource path="res://Drew/Prefabs/bullet.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 132.074, 129.623 )
+
+[node name="player" type="KinematicBody2D"]
+position = Vector2( 208, 248 )
+scale = Vector2( 0.2, 0.2 )
+script = ExtResource( 1 )
+Speed = 300
+Ammo = 5
+Bullet = ExtResource( 3 )
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( -0.630005, 0.629944 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.2674, 2.38831 )
+shape = SubResource( 1 )
+
+[node name="EndOfGun" type="Position2D" parent="."]
+position = Vector2( 252.751, -10.5946 )

@@ -1,11 +1,27 @@
 extends KinematicBody2D
 
 #what this will be showing?
-export (int) var speed = 200
+export (int) var Speed
+export (int) var Ammo
+export (PackedScene) var Bullet
+
+onready var endOfGun = $EndOfGun
 
 var velocity = Vector2()
 
 var isShooting = false
+
+func shoot():
+	var bullet_init = Bullet.instance()
+	add_child(bullet_init)
+	bullet_init.global_position = endOfGun.global_position
+	
+	var target = get_global_mouse_position()
+	var dir_to_mouse = bullet_init.global_position.direction_to(target).normalized()
+	
+	bullet_init.set_dir(dir_to_mouse)
+	
+	Ammo -= 1
 
 func getInput():
 	
@@ -25,13 +41,13 @@ func getInput():
 	if Input.is_action_pressed("right"):
 		velocity.x += 1
 		
-	if Input.is_action_pressed("shoot"):
-		isShooting = true
-	else:
-		isShooting = false
+	velocity = velocity.normalized() * Speed
+
+
+func _unhandled_input(event):
+	if event.is_action_pressed("shoot") and Ammo > 0:
+		shoot()
 		
-	velocity = velocity.normalized() * speed
-	
 func _physics_process(delta):
 	getInput()
 	velocity = move_and_slide(velocity)
